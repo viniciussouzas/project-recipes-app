@@ -6,8 +6,13 @@ import renderWithRouter from '../helpers/renderWithRouter';
 
 const testIdEmail = 'email-input';
 const testIdPassword = 'password-input';
+const loginBtn = 'login-submit-btn';
 
 describe('Testa o componente Login', () => {
+  // Spying on localStorage in Jest retirado do site: https://amitd.co/code/testing/spying-on-localstorage-in-jest
+  jest.spyOn(Object.getPrototypeOf(window.localStorage), 'setItem');
+  Object.setPrototypeOf(window.localStorage.setItem, jest.fn());
+
   test('Verifica se os inputs são renderizados na tela', () => {
     const { history } = renderWithRouter(<App />);
 
@@ -27,7 +32,7 @@ describe('Testa o componente Login', () => {
 
     const inputEmail = screen.getByTestId(testIdEmail);
     const inputPassword = screen.getByTestId(testIdPassword);
-    const btnEnter = screen.getByTestId('login-submit-btn');
+    const btnEnter = screen.getByTestId(loginBtn);
 
     userEvent.type(inputEmail, 'xablau');
     userEvent.type(inputPassword, '123456');
@@ -40,11 +45,41 @@ describe('Testa o componente Login', () => {
 
     const inputEmail = screen.getByTestId(testIdEmail);
     const inputPassword = screen.getByTestId(testIdPassword);
-    const btnEnter = screen.getByTestId('login-submit-btn');
+    const btnEnter = screen.getByTestId(loginBtn);
 
     userEvent.type(inputEmail, 'xablau@gmail.com');
-    userEvent.type(inputPassword, '123456');
+    userEvent.type(inputPassword, '1234567');
 
     expect(btnEnter).toBeEnabled();
+  });
+
+  test('Verifica se salva o email do usuario no localStorage', () => {
+    renderWithRouter(<App />);
+
+    const inputEmail = screen.getByTestId(testIdEmail);
+    const inputPassword = screen.getByTestId(testIdPassword);
+    const btnEnter = screen.getByTestId(loginBtn);
+
+    userEvent.type(inputEmail, 'xablau@gmail.com');
+    userEvent.type(inputPassword, '1234567');
+    userEvent.click(btnEnter);
+
+    expect(window.localStorage.setItem).toHaveBeenCalledWith('user', '{"email":"xablau@gmail.com"}');
+  });
+
+  test('Verifica se ao clicar no botão é redirecionado para /meals', () => {
+    const { history } = renderWithRouter(<App />);
+
+    const inputEmail = screen.getByTestId(testIdEmail);
+    const inputPassword = screen.getByTestId(testIdPassword);
+    const btnEnter = screen.getByTestId(loginBtn);
+
+    userEvent.type(inputEmail, 'email@email.com');
+    userEvent.type(inputPassword, '1234567');
+    userEvent.click(btnEnter);
+
+    const { pathname } = history.location;
+
+    expect(pathname).toBe('/meals');
   });
 });
