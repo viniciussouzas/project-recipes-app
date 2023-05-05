@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function Login() {
@@ -22,7 +21,7 @@ function Login() {
 
   const handleClick = () => {
     localStorage.setItem('user', JSON.stringify({ email: login.email }));
-    history.push('/meals')
+    history.push('/meals');
   };
 
   const verifyPassword = login.password.length > MIN_NUMBER;
