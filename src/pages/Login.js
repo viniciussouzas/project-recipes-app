@@ -16,6 +16,10 @@ function Login() {
     });
   };
 
+  const saveUserOnLocalStorage = () => {
+    localStorage.setItem('user', JSON.stringify({ email: login.email }));
+  };
+
   const verifyPassword = login.password.length > MIN_NUMBER;
 
   const isValid = validEmail.test(login.email) && verifyPassword;
@@ -40,6 +44,7 @@ function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ !isValid }
+        onClick={ saveUserOnLocalStorage }
       >
         Enter
       </button>
