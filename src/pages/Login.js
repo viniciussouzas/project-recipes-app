@@ -1,4 +1,6 @@
+import React from 'react';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
   const MIN_NUMBER = 6;
@@ -9,6 +11,8 @@ function Login() {
     password: '',
   });
 
+  const history = useHistory();
+
   const handleChange = ({ target: { name, value } }) => {
     setLogin({
       ...login,
@@ -16,8 +20,9 @@ function Login() {
     });
   };
 
-  const saveUserOnLocalStorage = () => {
+  const handleClick = () => {
     localStorage.setItem('user', JSON.stringify({ email: login.email }));
+    history.push('/meals')
   };
 
   const verifyPassword = login.password.length > MIN_NUMBER;
@@ -44,7 +49,7 @@ function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ !isValid }
-        onClick={ saveUserOnLocalStorage }
+        onClick={ handleClick }
       >
         Enter
       </button>
