@@ -16,7 +16,7 @@ function Login() {
     });
   };
 
-  const verifyPassword = login.password.length >= MIN_NUMBER;
+  const verifyPassword = login.password.length > MIN_NUMBER;
 
   const isValid = validEmail.test(login.email) && verifyPassword;
 

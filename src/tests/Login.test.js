@@ -43,7 +43,7 @@ describe('Testa o componente Login', () => {
     const btnEnter = screen.getByTestId('login-submit-btn');
 
     userEvent.type(inputEmail, 'xablau@gmail.com');
-    userEvent.type(inputPassword, '123456');
+    userEvent.type(inputPassword, '1234567');
 
     expect(btnEnter).toBeEnabled();
   });
