@@ -6,6 +6,7 @@ import Profile from '../pages/Profile';
 import DoneRecipes from '../pages/DoneRecipes';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 
+
 function Router() {
   return (
     <Switch>
