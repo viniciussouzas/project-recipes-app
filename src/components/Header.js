@@ -3,10 +3,20 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import profile from '../images/profileIcon.svg';
 import search from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header({ title, searchIcon }) {
   const [inputSearch, setInputSearch] = useState(false);
   const history = useHistory();
+
+  const historyPush = () => {
+    history.push('/profile');
+  };
+
+  const searchInput = () => {
+    setInputSearch(!inputSearch);
+  };
+
   return (
     <div>
       <h1
@@ -16,7 +26,7 @@ function Header({ title, searchIcon }) {
       </h1>
       <button
         type="button"
-        onClick={ () => history.push('/profile') }
+        onClick={ historyPush }
         data-testid="profile-button"
       >
         <img
@@ -29,7 +39,7 @@ function Header({ title, searchIcon }) {
         searchIcon && (
           <button
             type="button"
-            onClick={ () => setInputSearch(!inputSearch) }
+            onClick={ searchInput }
             data-testid="search-button"
           >
             <img
@@ -48,6 +58,7 @@ function Header({ title, searchIcon }) {
           />
         )
       }
+      <SearchBar />
     </div>
   );
 }
