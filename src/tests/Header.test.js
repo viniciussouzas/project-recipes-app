@@ -23,9 +23,7 @@ describe('Testa componente Header', () => {
   test('Verifica se botão search renderiza um input', async () => {
     renderWithRouter(<Meals />);
 
-    const buttonSearch = screen.getByRole('button', {
-      name: /search/i,
-    });
+    const buttonSearch = screen.getByTestId('search-button');
 
     userEvent.click(buttonSearch);
 
