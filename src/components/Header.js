@@ -58,7 +58,9 @@ function Header({ title, searchIcon }) {
           />
         )
       }
-      <SearchBar />
+      {
+        inputSearch && (<SearchBar />)
+      }
     </div>
   );
 }
