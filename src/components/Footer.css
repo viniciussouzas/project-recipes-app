@@ -1,6 +1,6 @@
 .footer {
-  position: fixed;
   bottom: 0;
+  height: 2.5rem;
+  position: fixed;
   width: 100%;
-  height: 2.5rem;            /* altura do rodapé */
 }
