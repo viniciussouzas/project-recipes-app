@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import context from '../contexts/MyContext';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 import './Footer.css';
 
 function Footer() {
+  const { setFilterData } = useContext(context);
   const history = useHistory();
 
   const drinkPush = () => {
+    setFilterData([]);
     history.push('/drinks');
   };
   const mealPush = () => {
+    setFilterData([]);
     history.push('/meals');
   };
   return (
