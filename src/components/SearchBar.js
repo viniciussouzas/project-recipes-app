@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import context from '../contexts/MyContext';
 import { mealsIngredients, mealsNames, mealsFirstLetter,
   drinkIngredients, drinkNames, drinkFirstLetter } from '../service/APIs';
 
 function SearchBar() {
-  const { inputApi, setFilterData } = useContext(context);
+  const { inputApi, setFilterData, filterData } = useContext(context);
   const { pathname } = useLocation();
   const [radio, setRadio] = useState('');
+
+  const history = useHistory();
 
   const handleChange = ({ target: { value } }) => {
     setRadio(value);
@@ -51,13 +53,21 @@ function SearchBar() {
     }
   };
 
-  const handleClick = () => {
+  const verifyData = (param) => {
+    if (filterData.length === 1) {
+      history.push(`/${param}/${filterData[0].idMeal}`);
+    }
+  };
+
+  const handleClick = async () => {
     setFilterData([]);
     if (pathname === '/meals') {
       getMealsApi();
+      verifyData('meals');
     }
     if (pathname === '/drinks') {
       getDrinksApi();
+      verifyData('drinks');
     }
   };
 
