@@ -4,10 +4,15 @@ import { screen } from '@testing-library/react';
 import renderWithRouter from '../helpers/renderWithRouter';
 import Drinks from '../pages/Drinks';
 import Meals from '../pages/Meals';
+import Provider from '../contexts/MyProvider';
 
 describe('Testa o componente Footer', () => {
   test('testa se o botão leva para "/meals"', () => {
-    const { history } = renderWithRouter(<Drinks />);
+    const { history } = renderWithRouter(
+      <Provider>
+        <Drinks />
+      </Provider>,
+    );
     const buttonMeals = screen.getByRole('button', {
       name: /mealicon/i,
     });
@@ -19,7 +24,11 @@ describe('Testa o componente Footer', () => {
     expect(pathname).toBe('/meals');
   });
   test('testa se o botão leva para "/drinks"', () => {
-    const { history } = renderWithRouter(<Meals />);
+    const { history } = renderWithRouter(
+      <Provider>
+        <Meals />
+      </Provider>,
+    );
     const buttonDrinks = screen.getByRole('button', {
       name: /drinkicon/i,
     });
