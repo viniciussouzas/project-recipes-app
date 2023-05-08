@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import Profile from '../pages/Profile';
+import Provider from '../contexts/MyProvider';
 
 describe('Testa página Profile', () => {
   const login = {
@@ -10,7 +11,11 @@ describe('Testa página Profile', () => {
   };
 
   test('testa se botão redireciona para rota "/done-recipes"', () => {
-    const { history } = renderWithRouter(<Profile />);
+    const { history } = renderWithRouter(
+      <Provider>
+        <Profile />
+      </Provider>,
+    );
 
     localStorage.setItem('user', JSON.stringify(login));
 
@@ -25,7 +30,11 @@ describe('Testa página Profile', () => {
     expect(pathname).toBe('/done-recipes');
   });
   test('testa se botão redireciona para rota "/favorite-recipes"', () => {
-    const { history } = renderWithRouter(<Profile />);
+    const { history } = renderWithRouter(
+      <Provider>
+        <Profile />
+      </Provider>,
+    );
 
     localStorage.setItem('user', JSON.stringify(login));
 
@@ -40,7 +49,11 @@ describe('Testa página Profile', () => {
     expect(pathname).toBe('/favorite-recipes');
   });
   test('testa se botão redireciona para rota "/"', () => {
-    const { history } = renderWithRouter(<Profile />);
+    const { history } = renderWithRouter(
+      <Provider>
+        <Profile />
+      </Provider>,
+    );
 
     localStorage.setItem('user', JSON.stringify(login));
 
@@ -55,7 +68,11 @@ describe('Testa página Profile', () => {
     expect(pathname).toBe('/');
   });
   test('testa se email aparece no perfil', () => {
-    renderWithRouter(<Profile />);
+    renderWithRouter(
+      <Provider>
+        <Profile />
+      </Provider>,
+    );
 
     localStorage.setItem('user', JSON.stringify(login));
 

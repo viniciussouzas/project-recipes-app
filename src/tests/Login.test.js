@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../helpers/renderWithRouter';
+import Provider from '../contexts/MyProvider';
 
 const testIdEmail = 'email-input';
 const testIdPassword = 'password-input';
@@ -54,7 +55,11 @@ describe('Testa o componente Login', () => {
   });
 
   test('Verifica se salva o email do usuario no localStorage', () => {
-    renderWithRouter(<App />);
+    renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
 
     const inputEmail = screen.getByTestId(testIdEmail);
     const inputPassword = screen.getByTestId(testIdPassword);
@@ -68,7 +73,11 @@ describe('Testa o componente Login', () => {
   });
 
   test('Verifica se ao clicar no botão é redirecionado para /meals', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
 
     const inputEmail = screen.getByTestId(testIdEmail);
     const inputPassword = screen.getByTestId(testIdPassword);

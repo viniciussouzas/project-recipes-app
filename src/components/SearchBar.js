@@ -1,31 +1,42 @@
 import React, { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import context from '../contexts/MyContext';
 import { mealsIngredients, mealsNames, mealsFirstLetter,
   drinkIngredients, drinkNames, drinkFirstLetter } from '../service/APIs';
 
 function SearchBar() {
-  const { inputApi, setFilterData } = useContext(context);
+  const { inputApi, setFilterData, filterData } = useContext(context);
   const { pathname } = useLocation();
   const [radio, setRadio] = useState('');
+
+  const history = useHistory();
 
   const handleChange = ({ target: { value } }) => {
     setRadio(value);
   };
 
+  const recipeNotFound = (recipe) => {
+    if (recipe === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  };
+
   const getMealsApi = async () => {
     if (radio === 'ingredient') {
       const filterIngredients = await mealsIngredients(inputApi);
-      setFilterData(filterIngredients);
+      recipeNotFound(filterIngredients);
+      setFilterData(filterIngredients || []);
     }
     if (radio === 'name') {
       const filterName = await mealsNames(inputApi);
-      setFilterData(filterName);
+      recipeNotFound(filterName);
+      setFilterData(filterName || []);
     }
     if (radio === 'first-letter') {
       if (inputApi.length === 1) {
         const filterLetter = await mealsFirstLetter(inputApi);
-        setFilterData(filterLetter);
+        recipeNotFound(filterLetter);
+        setFilterData(filterLetter || []);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
@@ -35,29 +46,41 @@ function SearchBar() {
   const getDrinksApi = async () => {
     if (radio === 'ingredient') {
       const filterIngredients = await drinkIngredients(inputApi);
-      setFilterData(filterIngredients);
+      console.log(filterIngredients);
+      recipeNotFound(filterIngredients);
+      setFilterData(filterIngredients || []);
     }
     if (radio === 'name') {
       const filterName = await drinkNames(inputApi);
-      setFilterData(filterName);
+      recipeNotFound(filterName);
+      setFilterData(filterName || []);
     }
     if (radio === 'first-letter') {
       if (inputApi.length === 1) {
         const filterLetter = await drinkFirstLetter(inputApi);
-        setFilterData(filterLetter);
+        recipeNotFound(filterLetter);
+        setFilterData(filterLetter || []);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
     }
   };
 
-  const handleClick = () => {
+  const verifyData = (param) => {
+    if (filterData.length === 1) {
+      history.push(`/${param}/${filterData[0].idMeal}`);
+    }
+  };
+
+  const handleClick = async () => {
     setFilterData([]);
     if (pathname === '/meals') {
       getMealsApi();
+      verifyData('meals');
     }
     if (pathname === '/drinks') {
       getDrinksApi();
+      verifyData('drinks');
     }
   };
 

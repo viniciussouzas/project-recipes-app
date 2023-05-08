@@ -20,7 +20,8 @@ function Provider({ children }) {
     data,
     setData,
     filterData,
-    setFilterData]);
+    setFilterData,
+  ]);
 
   return (
     <MyContext.Provider value={ values }>
