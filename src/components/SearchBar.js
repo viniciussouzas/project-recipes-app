@@ -5,7 +5,7 @@ import { mealsIngredients, mealsNames, mealsFirstLetter,
   drinkIngredients, drinkNames, drinkFirstLetter } from '../service/APIs';
 
 function SearchBar() {
-  const { inputApi, setFilterData, filterData } = useContext(context);
+  const { inputApi, setFilterData, filterData, setClickedFilter } = useContext(context);
   const { pathname } = useLocation();
   const [radio, setRadio] = useState('');
 
@@ -60,6 +60,7 @@ function SearchBar() {
   };
 
   const handleClick = async () => {
+    setClickedFilter(true);
     setFilterData([]);
     if (pathname === '/meals') {
       getMealsApi();

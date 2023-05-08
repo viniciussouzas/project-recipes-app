@@ -6,6 +6,7 @@ function Provider({ children }) {
   const [inputApi, setInputApi] = useState('');
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
+  const [clickedFilter, setClickedFilter] = useState(false);
 
   const values = useMemo(() => ({
     inputApi,
@@ -14,13 +15,17 @@ function Provider({ children }) {
     setData,
     filterData,
     setFilterData,
+    clickedFilter,
+    setClickedFilter,
   }), [
     inputApi,
     setInputApi,
     data,
     setData,
     filterData,
-    setFilterData]);
+    setFilterData,
+    clickedFilter,
+    setClickedFilter]);
 
   return (
     <MyContext.Provider value={ values }>
