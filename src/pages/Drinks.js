@@ -18,12 +18,16 @@ function Drinks() {
     verifyData();
   }, [filterData, history]);
 
+  const verifyFilterResults = () => {
+    if (filterData.length > 1) {
+      return <CardsDrinks />;
+    }
+  };
+
   return (
     <div>
       <Header title="Drinks" searchIcon />
-      { filterData.length > 1 && (
-        <CardsDrinks />
-      ) }
+      {filterData.length !== 0 ? verifyFilterResults() : <span>Olá</span>}
       <Footer />
     </div>
   );

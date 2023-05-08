@@ -6,7 +6,7 @@ import context from '../contexts/MyContext';
 import CardsMeals from '../components/CardsMeals';
 
 function Meals() {
-  const { filterData, clickedFilter } = useContext(context);
+  const { filterData } = useContext(context);
   const history = useHistory();
 
   useEffect(() => {
@@ -19,11 +19,7 @@ function Meals() {
     verifyData();
   }, [filterData, history]);
 
-  const renderResults = () => {
-    if (filterData === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      return;
-    }
+  const verifyFilterResults = () => {
     if (filterData.length > 1) {
       return <CardsMeals />;
     }
@@ -32,7 +28,7 @@ function Meals() {
   return (
     <div>
       <Header title="Meals" searchIcon />
-      {clickedFilter ? renderResults() : <span>Olá</span>}
+      {filterData.length !== 0 ? verifyFilterResults() : <span>Olá</span>}
       <Footer />
     </div>
   );
