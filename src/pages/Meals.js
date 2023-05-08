@@ -20,16 +20,12 @@ function Meals() {
   }, [filterData, history]);
 
   const renderResults = () => {
-    const NUMBER = 2000;
+    if (filterData === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      return;
+    }
     if (filterData.length > 1) {
       return <CardsMeals />;
-    }
-    setTimeout(() => {
-
-    }, NUMBER);
-
-    if (filterData.length === 0) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
 

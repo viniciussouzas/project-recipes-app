@@ -18,16 +18,16 @@ function SearchBar() {
   const getMealsApi = async () => {
     if (radio === 'ingredient') {
       const filterIngredients = await mealsIngredients(inputApi);
-      setFilterData(filterIngredients);
+      setFilterData(filterIngredients || []);
     }
     if (radio === 'name') {
       const filterName = await mealsNames(inputApi);
-      setFilterData(filterName);
+      setFilterData(filterName || []);
     }
     if (radio === 'first-letter') {
       if (inputApi.length === 1) {
         const filterLetter = await mealsFirstLetter(inputApi);
-        setFilterData(filterLetter);
+        setFilterData(filterLetter || []);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
@@ -37,16 +37,16 @@ function SearchBar() {
   const getDrinksApi = async () => {
     if (radio === 'ingredient') {
       const filterIngredients = await drinkIngredients(inputApi);
-      setFilterData(filterIngredients);
+      setFilterData(filterIngredients || []);
     }
     if (radio === 'name') {
       const filterName = await drinkNames(inputApi);
-      setFilterData(filterName);
+      setFilterData(filterName || []);
     }
     if (radio === 'first-letter') {
       if (inputApi.length === 1) {
         const filterLetter = await drinkFirstLetter(inputApi);
-        setFilterData(filterLetter);
+        setFilterData(filterLetter || []);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
