@@ -1,24 +1,54 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [inputApi, setInputApi] = useState('');
-  const [data, setData] = useState([]);
+  const [dataMeals, setDataMeals] = useState([]);
+  const [dataDrinks, setDataDrinks] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
+  const fetchApiMeals = async () => {
+    try {
+      const urlApi = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(urlApi);
+      const result = await response.json();
+      setDataMeals(result.meals);
+    } catch {
+      return null;
+    }
+  };
+
+  const fetchApiDrinks = async () => {
+    try {
+      const urlApi = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(urlApi);
+      const result = await response.json();
+      setDataDrinks(result.drinks);
+    } catch {
+      return null;
+    }
+  };
+  useEffect(() => {
+    fetchApiMeals();
+    fetchApiDrinks();
+  }, []);
   const values = useMemo(() => ({
     inputApi,
     setInputApi,
-    data,
-    setData,
+    dataMeals,
+    setDataMeals,
+    dataDrinks,
+    setDataDrinks,
     filterData,
     setFilterData,
   }), [
     inputApi,
     setInputApi,
-    data,
-    setData,
+    dataMeals,
+    setDataMeals,
+    dataDrinks,
+    setDataDrinks,
     filterData,
     setFilterData,
   ]);

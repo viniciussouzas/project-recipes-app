@@ -6,7 +6,7 @@ import context from '../contexts/MyContext';
 import CardsDrinks from '../components/CardsDrinks';
 
 function Drinks() {
-  const { filterData } = useContext(context);
+  const { filterData, dataDrinks } = useContext(context);
   const history = useHistory();
 
   useEffect(() => {
@@ -20,14 +20,15 @@ function Drinks() {
 
   const verifyFilterResults = () => {
     if (filterData.length > 1) {
-      return <CardsDrinks />;
+      return <CardsDrinks data={ filterData } />;
     }
   };
 
   return (
     <div>
       <Header title="Drinks" searchIcon />
-      {filterData.length !== 0 ? verifyFilterResults() : <span>Olá</span>}
+      {filterData.length !== 0 ? verifyFilterResults()
+        : <CardsDrinks data={ dataDrinks } />}
       <Footer />
     </div>
   );
