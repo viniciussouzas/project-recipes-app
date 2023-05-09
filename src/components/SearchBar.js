@@ -24,9 +24,9 @@ function SearchBar() {
   const verifyData = (param) => {
     // console.log(param);
     if (param?.length === 1 && pathname === '/meals') {
-      history.push(`/${pathname}/${param[0].idMeal}`);
+      history.push(`/meals/${param[0].idMeal}`);
     } if (param?.length === 1 && pathname === '/drinks') {
-      history.push(`/${pathname}/${param[0].idDrink}`);
+      history.push(`/drinks/${param[0].idDrink}`);
     }
   };
 
