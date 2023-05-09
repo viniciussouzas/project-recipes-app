@@ -5,7 +5,7 @@ import { mealsIngredients, mealsNames, mealsFirstLetter,
   drinkIngredients, drinkNames, drinkFirstLetter } from '../service/APIs';
 
 function SearchBar() {
-  const { inputApi, setFilterData, filterData } = useContext(context);
+  const { inputApi, setFilterData } = useContext(context);
   const { pathname } = useLocation();
   const [radio, setRadio] = useState('');
 
@@ -21,22 +21,34 @@ function SearchBar() {
     }
   };
 
+  const verifyData = (param) => {
+    // console.log(param);
+    if (param?.length === 1 && pathname === '/meals') {
+      history.push(`/${pathname}/${param[0].idMeal}`);
+    } if (param?.length === 1 && pathname === '/drinks') {
+      history.push(`/${pathname}/${param[0].idDrink}`);
+    }
+  };
+
   const getMealsApi = async () => {
     if (radio === 'ingredient') {
       const filterIngredients = await mealsIngredients(inputApi);
       recipeNotFound(filterIngredients);
       setFilterData(filterIngredients || []);
+      verifyData(filterIngredients);
     }
     if (radio === 'name') {
       const filterName = await mealsNames(inputApi);
       recipeNotFound(filterName);
       setFilterData(filterName || []);
+      verifyData(filterName);
     }
     if (radio === 'first-letter') {
       if (inputApi.length === 1) {
         const filterLetter = await mealsFirstLetter(inputApi);
         recipeNotFound(filterLetter);
         setFilterData(filterLetter || []);
+        verifyData(filterLetter);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
@@ -46,41 +58,35 @@ function SearchBar() {
   const getDrinksApi = async () => {
     if (radio === 'ingredient') {
       const filterIngredients = await drinkIngredients(inputApi);
-      console.log(filterIngredients);
       recipeNotFound(filterIngredients);
       setFilterData(filterIngredients || []);
+      verifyData(filterIngredients);
     }
     if (radio === 'name') {
       const filterName = await drinkNames(inputApi);
       recipeNotFound(filterName);
       setFilterData(filterName || []);
+      verifyData(filterName);
     }
     if (radio === 'first-letter') {
       if (inputApi.length === 1) {
         const filterLetter = await drinkFirstLetter(inputApi);
         recipeNotFound(filterLetter);
         setFilterData(filterLetter || []);
+        verifyData(filterLetter);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
     }
   };
 
-  const verifyData = (param) => {
-    if (filterData.length === 1) {
-      history.push(`/${param}/${filterData[0].idMeal}`);
-    }
-  };
-
   const handleClick = async () => {
     setFilterData([]);
     if (pathname === '/meals') {
-      getMealsApi();
-      verifyData('meals');
+      await getMealsApi();
     }
     if (pathname === '/drinks') {
-      getDrinksApi();
-      verifyData('drinks');
+      await getDrinksApi();
     }
   };
 
