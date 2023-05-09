@@ -5,11 +5,20 @@ import { filterCategory } from '../service/APIs';
 import context from '../contexts/MyContext';
 
 function CategoryButtons({ data }) {
-  const { setFilterData } = useContext(context);
+  const {
+    setFilterData,
+    setToggle,
+    selectedCategory, setSelectedCategory,
+  } = useContext(context);
   const MAX_SIZE = 5;
   const { pathname } = useLocation();
 
-  const hadleButton = async ({ target: { value } }) => {
+  const handleButton = async ({ target: { value } }) => {
+    setToggle(true);
+    if (selectedCategory === value) {
+      setToggle(false);
+    }
+    setSelectedCategory(value);
     setFilterData(await filterCategory(value, pathname));
   };
 
@@ -24,7 +33,7 @@ function CategoryButtons({ data }) {
           <button
             data-testid={ `${categoryName}-category-filter` }
             value={ categoryName }
-            onClick={ hadleButton }
+            onClick={ handleButton }
           >
             {categoryName}
           </button>

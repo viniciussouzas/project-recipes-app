@@ -9,6 +9,8 @@ function Provider({ children }) {
   const [categoryMeals, setCategoryMeals] = useState([]);
   const [categoryDrinks, setCategoryDrinks] = useState([]);
   const [filterData, setFilterData] = useState([]);
+  const [toggle, setToggle] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const fetchCategoryMeals = async () => {
     try {
@@ -74,6 +76,10 @@ function Provider({ children }) {
     setCategoryDrinks,
     filterData,
     setFilterData,
+    toggle,
+    setToggle,
+    selectedCategory,
+    setSelectedCategory,
   }), [
     inputApi,
     setInputApi,
@@ -87,6 +93,10 @@ function Provider({ children }) {
     setCategoryDrinks,
     filterData,
     setFilterData,
+    toggle,
+    setToggle,
+    selectedCategory,
+    setSelectedCategory,
   ]);
 
   return (
