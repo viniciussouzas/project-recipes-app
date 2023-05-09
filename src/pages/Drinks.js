@@ -4,9 +4,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import context from '../contexts/MyContext';
 import CardsDrinks from '../components/CardsDrinks';
+import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
-  const { filterData } = useContext(context);
+  const { filterData, dataDrinks, categoryDrinks } = useContext(context);
   const history = useHistory();
 
   useEffect(() => {
@@ -20,14 +21,16 @@ function Drinks() {
 
   const verifyFilterResults = () => {
     if (filterData.length > 1) {
-      return <CardsDrinks />;
+      return <CardsDrinks data={ filterData } />;
     }
   };
 
   return (
     <div>
       <Header title="Drinks" searchIcon />
-      {filterData.length !== 0 ? verifyFilterResults() : <span>Olá</span>}
+      <CategoryButtons data={ categoryDrinks } />
+      {filterData.length !== 0 ? verifyFilterResults()
+        : <CardsDrinks data={ dataDrinks } />}
       <Footer />
     </div>
   );
