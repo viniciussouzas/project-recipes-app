@@ -10,8 +10,8 @@ function InProgress(props) {
     <div>
       {
         pathname && pathname === `/meals/${propsId.match.params.id}/in-progress`
-          ? <InProgressMeals />
-          : <InProgressDrinks />
+          ? <InProgressMeals id={ propsId.match.params.id } />
+          : <InProgressDrinks id={ propsId.match.params.id } />
       }
     </div>
   );
