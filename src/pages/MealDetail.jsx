@@ -8,7 +8,7 @@ function MealDetails() {
     const fetchApi = async () => {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       const data = await response.json();
-      // console.log(data.meals);
+      console.log(data.meals);
       return data.meals;
     };
     fetchApi();
