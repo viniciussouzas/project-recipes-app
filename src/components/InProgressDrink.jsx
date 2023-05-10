@@ -7,7 +7,7 @@ function InProgressDrinks(props) {
   const { id } = idProps;
   const [filterDrinks, setFilterDrinks] = useState([]);
   const [filterObject, setFilterObject] = useState({});
-  const [isChecked, setIsChecked] = useState(false);
+  const [listChecked, setListChecked] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -25,9 +25,13 @@ function InProgressDrinks(props) {
     .filter((ingredient) => ingredient[0].includes('strIngredient'))
     .filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
 
-  const handleChange = () => {
-    setIsChecked(!isChecked);
+  const handleChange = ({ target }) => {
+    target.parentElement.className = 'ingredients';
+    setListChecked([...listChecked, target.value]);
   };
+
+  const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
+
   return (
     <div>
       {filterDrinks.map((element, index) => (
@@ -58,21 +62,21 @@ function InProgressDrinks(props) {
         </section>
       ))}
       {
-        getIngredients.map((e, index) => (
+        getIngredients.map((ingredient, index) => (
           <label
             key={ index }
+            htmlFor={ ingredient[1] }
             data-testid={ `${index}-ingredient-step` }
-            className={ isChecked[index] === true ? 'ingredients' : '' }
+            className={ isChecked(`${ingredient[1]}`) ? 'ingredients' : '' }
           >
-            {e[1]}
             <input
-              id={ e[index] }
-              checked={ e[isChecked] }
+              id={ ingredient[1] }
+              checked={ isChecked(ingredient[1]) }
               type="checkbox"
-              // checked={ e[isChecked] }
-              // value={ index }
               onChange={ handleChange }
+              value={ ingredient[1] }
             />
+            {ingredient[1]}
           </label>
         ))
       }
