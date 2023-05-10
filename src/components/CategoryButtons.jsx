@@ -7,19 +7,21 @@ import context from '../contexts/MyContext';
 function CategoryButtons({ data }) {
   const {
     setFilterData,
-    setToggle,
+    toggle, setToggle,
     selectedCategory, setSelectedCategory,
   } = useContext(context);
   const MAX_SIZE = 5;
   const { pathname } = useLocation();
 
   const handleButton = async ({ target: { value } }) => {
-    setToggle(true);
-    if (selectedCategory === value) {
+    if (selectedCategory === value && toggle) {
+      setFilterData([]);
       setToggle(false);
+    } else {
+      setFilterData(await filterCategory(value, pathname));
+      setSelectedCategory(value);
+      setToggle(true);
     }
-    setSelectedCategory(value);
-    setFilterData(await filterCategory(value, pathname));
   };
 
   const clearFilterData = () => {
