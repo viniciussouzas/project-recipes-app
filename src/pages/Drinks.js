@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import context from '../contexts/MyContext';
@@ -8,16 +7,6 @@ import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
   const { filterData, dataDrinks, categoryDrinks } = useContext(context);
-  const history = useHistory();
-
-  useEffect(() => {
-    const verifyData = () => {
-      if (filterData.length === 1) {
-        history.push(`/drinks/${filterData[0].idDrink}`);
-      }
-    };
-    verifyData();
-  }, [filterData, history]);
 
   const verifyFilterResults = () => {
     if (filterData.length > 1) {
