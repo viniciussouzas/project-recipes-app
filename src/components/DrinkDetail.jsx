@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import Recommendations from './Recommendations';
+import context from '../contexts/MyContext';
 
 function DrinkDetail() {
   const { id } = useParams(); // Hook usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
   const [recipeArrayDrink, setRecipeArrayDrink] = useState([]);
   const [recipeObjectDrink, setRecipeObjectDrink] = useState({});
+  const { dataMeals } = useContext(context);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -74,6 +77,7 @@ function DrinkDetail() {
           ))
         }
       </div>
+      <Recommendations data={ dataMeals } pageTypes="meals" />
     </div>
   );
 }
