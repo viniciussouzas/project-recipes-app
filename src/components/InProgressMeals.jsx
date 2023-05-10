@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchApiMeals } from '../service/APIs';
+import './InProgress.css';
 
 function InProgressMeals(props) {
   const idProps = props;
