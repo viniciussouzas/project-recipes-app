@@ -4,3 +4,9 @@
   position: fixed;
   width: 100%;
 }
+
+.start-recipe-btn {
+  bottom: 0;
+  height: 2.5rem;
+  position: fixed;
+}
