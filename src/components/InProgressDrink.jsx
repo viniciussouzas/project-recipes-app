@@ -9,6 +9,13 @@ function InProgressDrinks(props) {
   const [filterObject, setFilterObject] = useState({});
   const [listChecked, setListChecked] = useState([]);
 
+  const getLocalStorage = () => {
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('inProgressRecipes')) || [];
+
+    setListChecked(arrayLocalStorage);
+  };
+
   useEffect(() => {
     const fetchApi = async () => {
       const api = await fetchApiDrinks(id);
@@ -17,6 +24,7 @@ function InProgressDrinks(props) {
       setFilterObject(...filteredApi);
     };
     fetchApi();
+    getLocalStorage();
   }, [setFilterDrinks, id]);
 
   const objectEntries = Object.entries(filterObject);
@@ -26,8 +34,34 @@ function InProgressDrinks(props) {
     .filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
 
   const handleChange = ({ target }) => {
-    target.parentElement.className = 'ingredients';
-    setListChecked([...listChecked, target.value]);
+    const verify = listChecked.some((ingredient) => ingredient === target.value);
+    if (verify) {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('inProgressRecipes'));
+
+      const filteredStorage = arrayLocalStorage
+        .filter((ingredient) => ingredient !== target.value);
+
+      localStorage.setItem('inProgressRecipes', JSON.stringify(filteredStorage));
+
+      target.parentElement.className = '';
+
+      const filteredList = listChecked
+        .filter((ingredient) => ingredient !== target.value);
+
+      setListChecked(filteredList);
+    } else {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('inProgressRecipes')) || [];
+
+      arrayLocalStorage.push(target.value);
+
+      localStorage.setItem('inProgressRecipes', JSON.stringify(arrayLocalStorage));
+
+      target.parentElement.className = 'ingredients';
+
+      setListChecked([...listChecked, target.value]);
+    }
   };
 
   const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
