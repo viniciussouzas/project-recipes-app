@@ -81,24 +81,24 @@ export const filterCategory = async (category, pathName) => {
 //   }
 // };
 
-// export const fetchApiMeals = async () => {
-//   try {
-//     const urlApi = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-//     const response = await fetch(urlApi);
-//     const data = await response.json();
-//     return data.meals;
-//   } catch {
-//     return null;
-//   }
-// };
+export const fetchApiMeals = async (id) => {
+  try {
+    const urlApi = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(urlApi);
+    const data = await response.json();
+    return data.meals;
+  } catch {
+    return null;
+  }
+};
 
-// export const fetchApiDrinks = async () => {
-//   try {
-//     const urlApi = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-//     const response = await fetch(urlApi);
-//     const data = await response.json();
-//     return data.drinks;
-//   } catch {
-//     return null;
-//   }
-// };
+export const fetchApiDrinks = async (id) => {
+  try {
+    const urlApi = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(urlApi);
+    const data = await response.json();
+    return data.drinks;
+  } catch {
+    return null;
+  }
+};
