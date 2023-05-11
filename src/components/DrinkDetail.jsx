@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Recommendations from './Recommendations';
 import context from '../contexts/MyContext';
+import './Footer.css';
 
 function DrinkDetail() {
   const { id } = useParams(); // Hook usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
@@ -13,7 +14,6 @@ function DrinkDetail() {
     const fetchApi = async () => {
       const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       const data = await response.json();
-      console.log(data.drinks);
       setRecipeArrayDrink([...data.drinks]);
       setRecipeObjectDrink(...data.drinks);
     };
@@ -21,7 +21,6 @@ function DrinkDetail() {
   }, [id]);
 
   const objectEntries = Object.entries(recipeObjectDrink);
-  console.log(objectEntries);
 
   const getIngredients = objectEntries
     .filter((ingredient) => ingredient[0].includes('strIngredient'))
@@ -77,6 +76,7 @@ function DrinkDetail() {
           ))
         }
       </div>
+      <button className="start-recipe-btn" data-testid="start-recipe-btn">Start</button>
       <Recommendations data={ dataMeals } pageTypes="meals" />
     </div>
   );

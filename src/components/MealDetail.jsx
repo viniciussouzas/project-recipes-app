@@ -94,6 +94,7 @@ function MealDetails() {
           ))
         }
       </div>
+      <button className="start-recipe-btn" data-testid="start-recipe-btn">Start</button>
       <Recommendations data={ dataDrinks } pageTypes="drinks" />
     </div>
   );
