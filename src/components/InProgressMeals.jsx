@@ -26,8 +26,16 @@ function InProgressMeals(props) {
     .filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
 
   const handleChange = ({ target }) => {
-    target.parentElement.className = 'ingredients';
-    setListChecked([...listChecked, target.value]);
+    const verify = listChecked.some((ingredient) => ingredient === target.value);
+    if (verify) {
+      target.parentElement.className = '';
+      const filteredList = listChecked
+        .filter((ingredient) => ingredient !== target.value);
+      setListChecked(filteredList);
+    } else {
+      target.parentElement.className = 'ingredients';
+      setListChecked([...listChecked, target.value]);
+    }
   };
 
   const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
