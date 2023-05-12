@@ -30,6 +30,16 @@ function DrinkDetail() {
     .filter((measure) => measure[0].includes('strMeasure'))
     .filter((measure) => measure[1] !== ' ');
 
+  const verifyDoneRecipe = () => {
+    const getIdDoneRecipe = localStorage.getItem('doneRecipes') || [];
+    let verify = false;
+
+    if (id === getIdDoneRecipe.id) {
+      verify = true;
+    }
+    return verify;
+  };
+
   return (
     <div>
       { recipeArrayDrink
@@ -76,8 +86,11 @@ function DrinkDetail() {
           ))
         }
       </div>
-      <button className="start-recipe-btn" data-testid="start-recipe-btn">Start</button>
       <Recommendations data={ dataMeals } pageTypes="meals" />
+
+      {!verifyDoneRecipe()
+      && <button className="btn" data-testid="start-recipe-btn">Start</button>}
+
     </div>
   );
 }

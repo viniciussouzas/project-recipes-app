@@ -71,16 +71,6 @@ export const filterCategory = async (category, pathName) => {
   }
 };
 
-// export const filterDrinks = async (category) => {
-//   try {
-//     const response = await fetch(urlApi);
-//     const data = await response.json();
-//     return data;
-//   } catch {
-//     return null;
-//   }
-// };
-
 export const fetchApiMeals = async (id) => {
   try {
     const urlApi = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
@@ -102,3 +92,14 @@ export const fetchApiDrinks = async (id) => {
     return null;
   }
 };
+
+// export const setLocalStorage = (key, value) => {
+//   const stringify = JSON.stringify(value);
+//   localStorage.setItem(key, stringify);
+// };
+
+// export const getLocalStorage = (key) => {
+//   const value = localStorage.getItem(key);
+//   const dataValue = JSON.parse(value);
+//   return dataValue;
+// };
