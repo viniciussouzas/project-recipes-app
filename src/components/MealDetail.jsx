@@ -115,7 +115,7 @@ function MealDetails({ pathname }) {
         type="button"
         className="btn"
         data-testid="start-recipe-btn"
-        onClick={ () => history.push(`${pathname}in-progress`) }
+        onClick={ () => history.push(`${pathname}/in-progress`) }
       >
         {
           verifyInProgress ? 'Continue Recipe' : 'Start Recipe'
