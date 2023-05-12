@@ -1,5 +1,9 @@
+import copy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
 import { fetchApiMeals } from '../service/APIs';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './InProgress.css';
 
 function InProgressMeals(props) {
@@ -8,6 +12,8 @@ function InProgressMeals(props) {
   const [filterMeals, setFilterMeals] = useState([]);
   const [filterObject, setFilterObject] = useState({});
   const [listChecked, setListChecked] = useState([]);
+  const [clipboard, setClipboard] = useState('');
+  const [favorite, setFavorite] = useState(false);
 
   const getLocalStorage = () => {
     const arrayLocalStorage = JSON
@@ -65,6 +71,31 @@ function InProgressMeals(props) {
   };
 
   const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
+
+  const clipboardClick = () => {
+    copy(`http://localhost:3000/meals/${id}`);
+    setClipboard('Link copied!');
+  };
+
+  const FavoriteButton = () => {
+    setFavorite(!favorite);
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+    // arrayLocalStorage.push(
+    // [{
+    //   id: id,
+    //   type: 'meals',
+    //   nationality:,
+    //   category:,
+    //   alcoholicOrNot:,
+    //   name:,
+    //   image: }],
+    // );
+
+    localStorage.setItem('favoriteRecipes', JSON.stringify(arrayLocalStorage));
+  };
+
   return (
     <div>
       {filterMeals.map((element, index) => (
@@ -78,15 +109,25 @@ function InProgressMeals(props) {
           <button
             type="button"
             data-testid="share-btn"
+            onClick={ clipboardClick }
           >
-            compartilhar
+            <img
+              src={ shareIcon }
+              alt="shareIcon"
+            />
           </button>
           <button
             type="button"
             data-testid="favorite-btn"
+            onClick={ FavoriteButton }
+            src={ favorite ? blackHeartIcon : whiteHeartIcon }
           >
-            favoritar
+            <img
+              src={ favorite ? blackHeartIcon : whiteHeartIcon }
+              alt={ favorite ? 'blackHeartIcon' : 'whiteHeartIcon' }
+            />
           </button>
+          <p>{ clipboard }</p>
           <p data-testid="recipe-category">{element.strCategory}</p>
           <h3>Instrução</h3>
           <p data-testid="instructions">

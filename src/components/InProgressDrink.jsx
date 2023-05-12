@@ -1,5 +1,9 @@
+import copy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
 import { fetchApiDrinks } from '../service/APIs';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './InProgress.css';
 
 function InProgressDrinks(props) {
@@ -8,6 +12,10 @@ function InProgressDrinks(props) {
   const [filterDrinks, setFilterDrinks] = useState([]);
   const [filterObject, setFilterObject] = useState({});
   const [listChecked, setListChecked] = useState([]);
+  const [clipboard, setClipboard] = useState('');
+  const [favorite, setFavorite] = useState(false);
+
+  // const receita = { id, type, nationality, category, alcoholicOrNot, name, image };
 
   const getLocalStorage = () => {
     const arrayLocalStorage = JSON
@@ -66,6 +74,15 @@ function InProgressDrinks(props) {
 
   const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
 
+  const clipboardClick = () => {
+    copy(`http://localhost:3000/drinks/${id}`);
+    setClipboard('Link copied!');
+  };
+
+  const FavoriteButton = () => {
+    setFavorite(!favorite);
+  };
+
   return (
     <div>
       {filterDrinks.map((element, index) => (
@@ -79,15 +96,25 @@ function InProgressDrinks(props) {
           <button
             type="button"
             data-testid="share-btn"
+            onClick={ clipboardClick }
           >
-            compartilhar
+            <img
+              src={ shareIcon }
+              alt="shareIcon"
+            />
           </button>
           <button
             type="button"
             data-testid="favorite-btn"
+            onClick={ FavoriteButton }
+            src={ favorite ? blackHeartIcon : whiteHeartIcon }
           >
-            favoritar
+            <img
+              src={ favorite ? blackHeartIcon : whiteHeartIcon }
+              alt={ favorite ? 'blackHeartIcon' : 'whiteHeartIcon' }
+            />
           </button>
+          <p>{ clipboard }</p>
           <p data-testid="recipe-category">{element.strCategory}</p>
           <h3>Instrução</h3>
           <p data-testid="instructions">
