@@ -73,6 +73,37 @@ function InProgressDrinks(props) {
   };
 
   const FavoriteButton = () => {
+    if (favorite) {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+      const arrayFiltered = arrayLocalStorage
+        .filter((drink) => drink.id !== id && drink.type !== 'drink');
+
+      console.log(arrayFiltered);
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFiltered));
+    } else {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+      arrayLocalStorage.push(
+        {
+          id,
+          type: 'drink',
+          nationality: filterObject.strArea || '',
+          category: filterObject.strCategory || '',
+          alcoholicOrNot: filterObject.strAlcoholic || '',
+          name: filterObject.strDrink,
+          image: filterObject.strDrinkThumb,
+        },
+      );
+
+      console.log(arrayLocalStorage);
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayLocalStorage));
+    }
+
     setFavorite(!favorite);
   };
 
