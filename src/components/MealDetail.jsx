@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Recommendations from './Recommendations';
 import context from '../contexts/MyContext';
+import './Footer.css';
 
 function MealDetails() {
   const { id } = useParams(); // Hoock usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
@@ -20,6 +21,16 @@ function MealDetails() {
     };
     fetchApi();
   }, [id]);
+
+  const verifyDoneRecipe = () => {
+    const getIdDoneRecipe = localStorage.getItem('doneRecipes') || [];
+    let verify = false;
+
+    if (id === getIdDoneRecipe.id) {
+      verify = true;
+    }
+    return verify;
+  };
 
   const objectEntries = Object.entries(recipeObjectMeal);
 
@@ -94,8 +105,14 @@ function MealDetails() {
           ))
         }
       </div>
-      <button className="start-recipe-btn" data-testid="start-recipe-btn">Start</button>
+
       <Recommendations data={ dataDrinks } pageTypes="drinks" />
+
+      {
+        !verifyDoneRecipe()
+        && <button className="btn" data-testid="start-recipe-btn">Start</button>
+      }
+
     </div>
   );
 }
