@@ -1,36 +1,39 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Recommendations from './Recommendations';
 import context from '../contexts/MyContext';
 import './Footer.css';
 
-function MealDetails() {
-  const { id } = useParams(); // Hoock usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
+function MealDetails({ pathname }) {
+  const { id } = useParams(); // Hook usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
+  const history = useHistory();
 
   const [recipeArrayMeal, setRecipeArrayMeal] = useState([]);
   const [recipeObjectMeal, setRecipeObjectMeal] = useState({});
+  const [verifyInProgress, setVerifyInProgress] = useState(false);
   const { dataDrinks } = useContext(context);
 
   useEffect(() => {
     const fetchApi = async () => {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       const data = await response.json();
-      console.log(data.meals);
       setRecipeArrayMeal([...data.meals]);
       setRecipeObjectMeal(...data.meals);
     };
     fetchApi();
   }, [id]);
 
-  const verifyDoneRecipe = () => {
-    const getIdDoneRecipe = localStorage.getItem('doneRecipes') || [];
-    let verify = false;
+  useEffect(() => {
+    const getIdDoneRecipe = JSON
+      .parse(localStorage.getItem('inProgressRecipes')) || []; // ou {}
 
-    if (id === getIdDoneRecipe.id) {
-      verify = true;
+    if (!Object.keys(getIdDoneRecipe).includes('meals')) {
+      setVerifyInProgress(false);
+    } else if (Object.keys(getIdDoneRecipe.meals).includes(id)) {
+      setVerifyInProgress(getIdDoneRecipe.meals[id].length > 1);
     }
-    return verify;
-  };
+  }, []);
 
   const objectEntries = Object.entries(recipeObjectMeal);
 
@@ -108,13 +111,23 @@ function MealDetails() {
 
       <Recommendations data={ dataDrinks } pageTypes="drinks" />
 
-      {
-        !verifyDoneRecipe()
-        && <button className="btn" data-testid="start-recipe-btn">Start</button>
-      }
+      <button
+        type="button"
+        className="btn"
+        data-testid="start-recipe-btn"
+        onClick={ () => history.push(`${pathname}in-progress`) }
+      >
+        {
+          verifyInProgress ? 'Continue Recipe' : 'Start Recipe'
+        }
+      </button>
 
     </div>
   );
 }
+
+MealDetails.propTypes = {
+  pathname: PropTypes.func,
+}.isRequired;
 
 export default MealDetails;
