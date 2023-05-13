@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Recommendations from './Recommendations';
 import context from '../contexts/MyContext';
 import './Footer.css';
 
-function DrinkDetail() {
+function DrinkDetail({ pathname }) {
   const { id } = useParams(); // Hook usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
+  const history = useHistory();
+
   const [recipeArrayDrink, setRecipeArrayDrink] = useState([]);
   const [recipeObjectDrink, setRecipeObjectDrink] = useState({});
+  const [verifyInProgress, setVerifyInProgress] = useState(false);
   const { dataMeals } = useContext(context);
 
   useEffect(() => {
@@ -20,6 +24,17 @@ function DrinkDetail() {
     fetchApi();
   }, [id]);
 
+  useEffect(() => {
+    const getIdDoneRecipe = JSON
+      .parse(localStorage.getItem('inProgressRecipes')) || {};
+
+    if (!Object.keys(getIdDoneRecipe).includes('drinks')) {
+      setVerifyInProgress(false);
+    } else {
+      setVerifyInProgress(Object.keys(getIdDoneRecipe.drinks).includes(id));
+    }
+  }, []);
+
   const objectEntries = Object.entries(recipeObjectDrink);
 
   const getIngredients = objectEntries
@@ -29,16 +44,6 @@ function DrinkDetail() {
   const getMeasures = objectEntries
     .filter((measure) => measure[0].includes('strMeasure'))
     .filter((measure) => measure[1] !== ' ');
-
-  const verifyDoneRecipe = () => {
-    const getIdDoneRecipe = localStorage.getItem('doneRecipes') || [];
-    let verify = false;
-
-    if (id === getIdDoneRecipe.id) {
-      verify = true;
-    }
-    return verify;
-  };
 
   return (
     <div>
@@ -88,11 +93,22 @@ function DrinkDetail() {
       </div>
       <Recommendations data={ dataMeals } pageTypes="meals" />
 
-      {!verifyDoneRecipe()
-      && <button className="btn" data-testid="start-recipe-btn">Start</button>}
-
+      <button
+        type="button"
+        className="btn"
+        data-testid="start-recipe-btn"
+        onClick={ () => history.push(`${pathname}/in-progress`) }
+      >
+        {
+          verifyInProgress ? 'Continue Recipe' : 'Start Recipe'
+        }
+      </button>
     </div>
   );
 }
+
+DrinkDetail.propTypes = {
+  pathname: PropTypes.func,
+}.isRequired;
 
 export default DrinkDetail;
