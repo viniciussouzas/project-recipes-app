@@ -26,12 +26,12 @@ function MealDetails({ pathname }) {
 
   useEffect(() => {
     const getIdDoneRecipe = JSON
-      .parse(localStorage.getItem('inProgressRecipes')) || []; // ou {}
+      .parse(localStorage.getItem('inProgressRecipes')) || {};
 
     if (!Object.keys(getIdDoneRecipe).includes('meals')) {
       setVerifyInProgress(false);
-    } else if (Object.keys(getIdDoneRecipe.meals).includes(id)) {
-      setVerifyInProgress(getIdDoneRecipe.meals[id].length > 1);
+    } else {
+      setVerifyInProgress(Object.keys(getIdDoneRecipe.meals).includes(id));
     }
   }, []);
 

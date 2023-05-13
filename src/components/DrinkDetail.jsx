@@ -26,12 +26,12 @@ function DrinkDetail({ pathname }) {
 
   useEffect(() => {
     const getIdDoneRecipe = JSON
-      .parse(localStorage.getItem('inProgressRecipes')) || []; // ou {}
+      .parse(localStorage.getItem('inProgressRecipes')) || {};
 
     if (!Object.keys(getIdDoneRecipe).includes('drinks')) {
       setVerifyInProgress(false);
-    } else if (Object.keys(getIdDoneRecipe.drinks).includes(id)) {
-      setVerifyInProgress(getIdDoneRecipe.drinks[id].length > 1);
+    } else {
+      setVerifyInProgress(Object.keys(getIdDoneRecipe.drinks).includes(id));
     }
   }, []);
 
