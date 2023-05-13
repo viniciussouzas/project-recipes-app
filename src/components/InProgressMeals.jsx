@@ -23,7 +23,15 @@ function InProgressMeals(props) {
       setFilterObject(...filteredApi);
     };
     fetchApi();
-  }, [setFilterMeals, id]);
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+    const favoriteTrue = arrayLocalStorage.some((meals) => meals.id === id);
+
+    if (favoriteTrue) {
+      setFavorite(true);
+    }
+  }, [setFilterMeals, id, setFavorite]);
 
   const objectEntries = Object.entries(filterObject);
 
@@ -71,22 +79,34 @@ function InProgressMeals(props) {
   };
 
   const FavoriteButton = () => {
+    if (favorite) {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+      const arrayFiltered = arrayLocalStorage
+        .filter((meals) => meals.id !== id);
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFiltered));
+    } else {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+      arrayLocalStorage.push(
+        {
+          id,
+          type: 'meal',
+          nationality: filterObject.strArea || '',
+          category: filterObject.strCategory || '',
+          alcoholicOrNot: filterObject.strAlcoholic || '',
+          name: filterObject.strMeal,
+          image: filterObject.strMealThumb,
+        },
+      );
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayLocalStorage));
+    }
+
     setFavorite(!favorite);
-    const arrayLocalStorage = JSON
-      .parse(localStorage.getItem('favoriteRecipes')) || [];
-
-    // arrayLocalStorage.push(
-    // [{
-    //   id: id,
-    //   type: 'meals',
-    //   nationality:,
-    //   category:,
-    //   alcoholicOrNot:,
-    //   name:,
-    //   image: }],
-    // );
-
-    localStorage.setItem('favoriteRecipes', JSON.stringify(arrayLocalStorage));
   };
 
   return (

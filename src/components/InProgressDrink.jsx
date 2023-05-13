@@ -25,7 +25,15 @@ function InProgressDrinks(props) {
       setFilterObject(...filteredApi);
     };
     fetchApi();
-  }, [setFilterDrinks, id]);
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+    const favoriteTrue = arrayLocalStorage.some((drink) => drink.id === id);
+
+    if (favoriteTrue) {
+      setFavorite(true);
+    }
+  }, [setFilterDrinks, id, setFavorite]);
 
   const objectEntries = Object.entries(filterObject);
 
@@ -78,9 +86,7 @@ function InProgressDrinks(props) {
         .parse(localStorage.getItem('favoriteRecipes')) || [];
 
       const arrayFiltered = arrayLocalStorage
-        .filter((drink) => drink.id !== id && drink.type !== 'drink');
-
-      console.log(arrayFiltered);
+        .filter((drink) => drink.id !== id);
 
       localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFiltered));
     } else {
@@ -98,8 +104,6 @@ function InProgressDrinks(props) {
           image: filterObject.strDrinkThumb,
         },
       );
-
-      console.log(arrayLocalStorage);
 
       localStorage.setItem('favoriteRecipes', JSON.stringify(arrayLocalStorage));
     }
