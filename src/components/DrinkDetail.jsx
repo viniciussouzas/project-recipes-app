@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Recommendations from './Recommendations';
 import context from '../contexts/MyContext';
 import './Footer.css';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function DrinkDetail({ pathname }) {
   const { id } = useParams(); // Hook usado para pegar o ID que está na URL exemplo e logo em seguida fazer o fetch usando o mesmo
@@ -12,6 +14,8 @@ function DrinkDetail({ pathname }) {
   const [recipeArrayDrink, setRecipeArrayDrink] = useState([]);
   const [recipeObjectDrink, setRecipeObjectDrink] = useState({});
   const [verifyInProgress, setVerifyInProgress] = useState(false);
+  const [verifyIsFavorite, setVerifyIsFavorite] = useState(false);
+  const [favorites, setFavorites] = useState([]); /* Array onde irei guardar meus favoritos */
   const { dataMeals } = useContext(context);
 
   useEffect(() => {
@@ -45,6 +49,37 @@ function DrinkDetail({ pathname }) {
     .filter((measure) => measure[0].includes('strMeasure'))
     .filter((measure) => measure[1] !== ' ');
 
+  useEffect(() => {
+    const getFavoritesFromLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+    setFavorites(getFavoritesFromLocalStorage);
+
+    const checkedIsFavorite = getFavoritesFromLocalStorage
+      .some((recipe) => recipe.id === id);
+    setVerifyIsFavorite(checkedIsFavorite);
+  }, [id]);
+
+  const handleClick = () => {
+    if (verifyIsFavorite) {
+      const updateFavorites = favorites.filter((recipe) => recipe.id !== id);
+      setFavorites(updateFavorites);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(updateFavorites));
+      setVerifyIsFavorite(false);
+    } else {
+      const setFavoritesLocalStorage = [...favorites, {
+        id: recipeObjectDrink.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipeObjectDrink.strCategory,
+        alcoholicOrNot: recipeObjectDrink.strAlcoholic,
+        name: recipeObjectDrink.strDrink,
+        image: recipeObjectDrink.strDrinkThumb,
+      }];
+      setFavorites(setFavoritesLocalStorage);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(setFavoritesLocalStorage));
+      setVerifyIsFavorite(true);
+    }
+  };
   return (
     <div>
       { recipeArrayDrink
@@ -66,12 +101,27 @@ function DrinkDetail({ pathname }) {
             <p data-testid="instructions">
               {strInstructions}
             </p>
+            <button
+              type="button"
+              data-testid="share-btn"
+            >
+              Compartilhar
 
+            </button>
+            <button
+              onClick={ handleClick }
+              type="button"
+              data-testid="favorite-btn"
+              src={ verifyIsFavorite ? blackHeartIcon : whiteHeartIcon }
+            >
+              <img
+                src={ verifyIsFavorite ? blackHeartIcon : whiteHeartIcon }
+                alt={ verifyIsFavorite ? 'blackHeartIcon' : 'whiteHeartIcon' }
+              />
+            </button>
           </div>
         ))}
       <div>
-        <button type="button" data-testid="share-btn">Compartilhar</button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
         {
           getMeasures.map((measure, index) => (
             <p
