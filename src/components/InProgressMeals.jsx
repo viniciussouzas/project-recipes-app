@@ -14,6 +14,7 @@ function InProgressMeals(props) {
   const [listChecked, setListChecked] = useState([]);
   const [clipboard, setClipboard] = useState('');
   const [favorite, setFavorite] = useState(false);
+  const [disable, setDisable] = useState(true);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -69,7 +70,15 @@ function InProgressMeals(props) {
         [id]: listChecked,
       } };
     localStorage.setItem('inProgressRecipes', JSON.stringify(object));
-  }, [listChecked, id]);
+    const ingredientsFinish = objectEntries
+      .filter((ingredient) => ingredient[0].includes('strIngredient'))
+      .filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
+    if (ingredientsFinish.length === listChecked.length) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [listChecked, id, objectEntries]);
 
   const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
 
@@ -170,6 +179,7 @@ function InProgressMeals(props) {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ disable }
       >
         Finalizar
 
