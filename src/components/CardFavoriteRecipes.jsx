@@ -12,8 +12,6 @@ function CardFavoriteRecipes() {
       const arrayLocalStorage = JSON
         .parse(localStorage.getItem('favoriteRecipes')) || [];
 
-      console.log(arrayLocalStorage);
-
       setArrayFavorite(arrayLocalStorage);
     };
     getLocalStorage();
@@ -28,9 +26,17 @@ function CardFavoriteRecipes() {
     setClipboard('Link copied!');
   };
 
-  // const FavoriteButton = () => {
-  //   setFavorite(false);
-  // };
+  const FavoriteButton = (element) => {
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+    const arrayFiltered = arrayLocalStorage
+      .filter((recipe) => recipe.id !== element.id);
+
+    localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFiltered));
+
+    setArrayFavorite(arrayFiltered);
+  };
   return (
     <section>
       {
@@ -69,7 +75,7 @@ function CardFavoriteRecipes() {
             <button
               type="button"
               data-testid={ `${index}-horizontal-favorite-btn` }
-              // onClick={ FavoriteButton }
+              onClick={ () => FavoriteButton(element) }
               src={ blackHeartIcon }
             >
               <img
