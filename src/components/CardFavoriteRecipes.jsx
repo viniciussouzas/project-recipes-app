@@ -32,11 +32,21 @@ function CardFavoriteRecipes() {
             />
             <p data-testid={ `${index}-horizontal-top-text` }>{element.category}</p>
             <p data-testid={ `${index}-horizontal-name` }>{element.name}</p>
-            <p
-              data-testid={ `${index}-horizontal-top-text` }
-            >
-              {`${element.nationality} - ${element.category}`}
-            </p>
+            {element.type !== 'drink'
+              ? (
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {`${element.nationality} - ${element.category}`}
+                </p>
+              )
+              : (
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {element.alcoholicOrNot}
+                </p>
+              )}
             <button
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
