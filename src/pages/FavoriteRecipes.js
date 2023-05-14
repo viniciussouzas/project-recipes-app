@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import CardFavoriteRecipes from '../components/CardFavoriteRecipes';
 
 function FavoritesRecipes() {
   return (
@@ -23,6 +24,7 @@ function FavoritesRecipes() {
       >
         Drinks
       </button>
+      <CardFavoriteRecipes />
     </div>
   );
 }
