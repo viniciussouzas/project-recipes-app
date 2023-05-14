@@ -1,5 +1,6 @@
 import copy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { fetchApiMeals } from '../service/APIs';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -15,6 +16,7 @@ function InProgressMeals(props) {
   const [clipboard, setClipboard] = useState('');
   const [favorite, setFavorite] = useState(false);
   const [disable, setDisable] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -118,6 +120,30 @@ function InProgressMeals(props) {
     setFavorite(!favorite);
   };
 
+  const finishButton = () => {
+    const dataHoraClique = new Date();
+    const tags = filterObject.strTags.split(',');
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('doneRecipes')) || [];
+
+    arrayLocalStorage.push(
+      {
+        id,
+        type: 'meal',
+        nationality: filterObject.strArea || '',
+        category: filterObject.strCategory || '',
+        alcoholicOrNot: filterObject.strAlcoholic || '',
+        name: filterObject.strMeal,
+        image: filterObject.strMealThumb,
+        doneDate: dataHoraClique,
+        tags: tags || [],
+      },
+    );
+
+    localStorage.setItem('doneRecipes', JSON.stringify(arrayLocalStorage));
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       {filterMeals.map((element, index) => (
@@ -180,6 +206,7 @@ function InProgressMeals(props) {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ disable }
+        onClick={ finishButton }
       >
         Finalizar
 
