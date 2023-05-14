@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function CardFavoriteRecipes() {
   const [arrayFavorite, setArrayFavorite] = useState([]);
+  const [clipboard, setClipboard] = useState('');
   // const [favorite, setFavorite] = useState(true);
   useEffect(() => {
     const getLocalStorage = () => {
@@ -16,6 +18,15 @@ function CardFavoriteRecipes() {
     };
     getLocalStorage();
   }, []);
+
+  const copyLink = (param) => {
+    if (param.type === 'drink') {
+      copy(`http://localhost:3000/drinks/${param.id}`);
+    } else {
+      copy(`http://localhost:3000/meals/${param.id}`);
+    }
+    setClipboard('Link copied!');
+  };
 
   // const FavoriteButton = () => {
   //   setFavorite(false);
@@ -51,6 +62,7 @@ function CardFavoriteRecipes() {
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
               src={ shareIcon }
+              onClick={ () => copyLink(element) }
             >
               { shareIcon }
             </button>
@@ -65,6 +77,7 @@ function CardFavoriteRecipes() {
                 alt="blackHeartIcon"
               />
             </button>
+            <p>{ clipboard }</p>
           </div>
         ))
       }
