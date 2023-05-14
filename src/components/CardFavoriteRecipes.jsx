@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import copy from 'clipboard-copy';
+import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function CardFavoriteRecipes() {
   const [arrayFavorite, setArrayFavorite] = useState([]);
+  const [filteredArray, setFilteredArray] = useState([]);
   const [clipboard, setClipboard] = useState('');
-  // const [favorite, setFavorite] = useState(true);
+
   useEffect(() => {
     const getLocalStorage = () => {
       const arrayLocalStorage = JSON
         .parse(localStorage.getItem('favoriteRecipes')) || [];
 
       setArrayFavorite(arrayLocalStorage);
+      setFilteredArray(arrayLocalStorage);
     };
     getLocalStorage();
   }, []);
@@ -37,18 +40,58 @@ function CardFavoriteRecipes() {
 
     setArrayFavorite(arrayFiltered);
   };
+
+  const handleClick = (param) => {
+    if (param === 'Meals') {
+      const filtered = arrayFavorite.filter((element) => element.type !== 'drink');
+      setArrayFavorite(filtered);
+    } else if (param === 'Drinks') {
+      const filtered = arrayFavorite.filter((element) => element.type !== 'meal');
+
+      setArrayFavorite(filtered);
+    } else {
+      setArrayFavorite(filteredArray);
+    }
+  };
+
   return (
     <section>
+      <button
+        type="button"
+        onClick={ () => handleClick('Meals') }
+        data-testid="filter-by-meal-btn"
+      >
+        Meals
+
+      </button>
+      <button
+        type="button"
+        onClick={ () => handleClick('Drinks') }
+        data-testid="filter-by-drink-btn"
+      >
+        Drinks
+
+      </button>
+      <button
+        type="button"
+        onClick={ () => handleClick('All') }
+        data-testid="filter-by-all-btn"
+      >
+        All
+
+      </button>
       {
         arrayFavorite.map((element, index) => (
           <div key={ element.name }>
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ element.image }
-              alt={ element.name }
-            />
+            <Link to={ `${element.type}s/${element.id}` }>
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ element.image }
+                alt={ element.name }
+              />
+              <p data-testid={ `${index}-horizontal-name` }>{element.name}</p>
+            </Link>
             <p data-testid={ `${index}-horizontal-top-text` }>{element.category}</p>
-            <p data-testid={ `${index}-horizontal-name` }>{element.name}</p>
             {element.type !== 'drink'
               ? (
                 <p
