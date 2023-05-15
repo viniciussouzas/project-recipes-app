@@ -24,38 +24,44 @@ function Header({ title, searchIcon }) {
   };
 
   return (
-    <div>
+    <div className=".header-div">
       <h1
         data-testid="page-title"
       >
         { title }
       </h1>
-      <button
-        type="button"
-        onClick={ historyPush }
-        data-testid="profile-button"
-      >
-        <img
-          src={ profile }
-          alt="perfil"
-          data-testid="profile-top-btn"
-        />
-      </button>
-      {
-        searchIcon && (
-          <button
-            type="button"
-            onClick={ searchInput }
-            data-testid="search-button"
-          >
-            <img
-              src={ search }
-              alt="search"
-              data-testid="search-top-btn"
-            />
-          </button>
-        )
-      }
+
+      <div className="buttons-header">
+        <button
+          className="button is-rounded"
+          type="button"
+          onClick={ historyPush }
+          data-testid="profile-button"
+        >
+          <img
+            src={ profile }
+            alt="perfil"
+            data-testid="profile-top-btn"
+          />
+        </button>
+        {
+          searchIcon && (
+            <button
+              className="button is-rounded"
+              type="button"
+              onClick={ searchInput }
+              data-testid="search-button"
+            >
+              <img
+                src={ search }
+                alt="search"
+                data-testid="search-top-btn"
+              />
+            </button>
+          )
+        }
+      </div>
+
       {
         inputSearch && (
           <input

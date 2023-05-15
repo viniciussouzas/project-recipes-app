@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import context from '../contexts/MyContext';
 import CategoryButtons from '../components/CategoryButtons';
 import Recipes from '../components/Recipes';
+import './MealsAndDrinks.css';
 
 function Meals() {
   const { filterData, dataMeals, categoryMeals } = useContext(context);

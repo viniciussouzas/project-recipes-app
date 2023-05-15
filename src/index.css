@@ -1,3 +1,60 @@
-body {
-  margin: 0;
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+@media only screen and (max-width: 700px) {
+  .field {
+    background-image: url(./images/Artboard\ 1vertical.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 640px;
+  }
 }
+
+@media only screen and (min-width: 701px) {
+  .field {
+    background-image: url(./images/Artboard\ 1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: auto;
+  }
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(236, 199, 255) !important;
+  opacity: 1; /* Firefox */
+}
+
+.form-div {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%;
+}
+
+.form-input {
+  color: white !important;
+  margin: 5px;
+  border: none;
+  border-radius: 50px !important;
+  background-color: #1c0037 !important;
+  text-align: center; 
+}
+
+.form-text-mine {
+  font-size: 0.75rem;
+  color: rgb(236, 199, 255) !important;
+}
+
+.img-logo {
+  width: 90%;
+  margin-top: 60%;
+  margin-bottom: 5%;
+}
+
+.is-link {
+  margin-top: 15px;
+  background-color: #be0ac1 !important;
+  border: none !important;
+}
+
