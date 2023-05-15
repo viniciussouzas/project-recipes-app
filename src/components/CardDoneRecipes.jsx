@@ -6,24 +6,13 @@ import shareIcon from '../images/shareIcon.svg';
 function CardDoneRecipes() {
   const [arrayDoneRecipes, setArrayDoneRecipes] = useState([]);
   const [filteredArray, setFilteredArray] = useState([]);
-  // const [tagArray, setTagArray] = useState([]);
   const [clipboard, setClipboard] = useState('');
 
   useEffect(() => {
-    const getLocalStorage = () => {
-      const arrayLocalStorage = JSON
-        .parse(localStorage.getItem('doneRecipes')) || [];
+    const arrayLocalStorage = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
-      setArrayDoneRecipes(arrayLocalStorage);
-      setFilteredArray(arrayLocalStorage);
-
-      // const filtered = arrayLocalStorage.filter((element) => element);
-
-      // console.log(filtered.tags);
-
-      // setTagArray(filtered);
-    };
-    getLocalStorage();
+    setArrayDoneRecipes(arrayLocalStorage);
+    setFilteredArray(arrayLocalStorage);
   }, []);
 
   const copyLink = (param) => {
@@ -38,13 +27,13 @@ function CardDoneRecipes() {
   const handleClick = (param) => {
     if (param === 'Meals') {
       const filtered = arrayDoneRecipes.filter((element) => element.type !== 'drink');
-      setArrayFavorite(filtered);
+      setArrayDoneRecipes(filtered);
     } else if (param === 'Drinks') {
       const filtered = arrayDoneRecipes.filter((element) => element.type !== 'meal');
 
-      setArrayFavorite(filtered);
+      setArrayDoneRecipes(filtered);
     } else {
-      setArrayFavorite(filteredArray);
+      setArrayDoneRecipes(filteredArray);
     }
   };
 
@@ -85,7 +74,6 @@ function CardDoneRecipes() {
               />
               <p data-testid={ `${index}-horizontal-name` }>{element.name}</p>
             </Link>
-            {/* <p data-testid={ `${index}-horizontal-top-text` }>{element.category}</p>
             {element.type !== 'drink'
               ? (
                 <p
@@ -100,7 +88,7 @@ function CardDoneRecipes() {
                 >
                   {element.alcoholicOrNot}
                 </p>
-              )} */}
+              )}
             <p data-testid={ `${index}-horizontal-done-date` }>{element.doneDate}</p>
             <button
               type="button"
@@ -111,19 +99,17 @@ function CardDoneRecipes() {
               { shareIcon }
             </button>
             <p>{ clipboard }</p>
+            {element.tags.slice(0, 2).map((tag, tagIndex) => (
+              <span
+                key={ tagIndex }
+                data-testid={ `${index}-${tag}-horizontal-tag` }
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         ))
       }
-      {/* {
-        arrayDoneRecipes.tags.map((element, index) => (
-          <p
-            key={ index }
-            data-testid={ `${index}-horizontal-done-date` }
-          >
-            {element.tags[index]}
-          </p>
-        ))
-      } */}
     </section>
   );
 }
