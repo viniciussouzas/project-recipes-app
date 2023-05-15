@@ -1,5 +1,10 @@
+import copy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { fetchApiDrinks } from '../service/APIs';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './InProgress.css';
 
 function InProgressDrinks(props) {
@@ -8,6 +13,12 @@ function InProgressDrinks(props) {
   const [filterDrinks, setFilterDrinks] = useState([]);
   const [filterObject, setFilterObject] = useState({});
   const [listChecked, setListChecked] = useState([]);
+  const [clipboard, setClipboard] = useState('');
+  const [favorite, setFavorite] = useState(false);
+  const [disable, setDisable] = useState(true);
+  const history = useHistory();
+
+  // const receita = { id, type, nationality, category, alcoholicOrNot, name, image };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -17,7 +28,15 @@ function InProgressDrinks(props) {
       setFilterObject(...filteredApi);
     };
     fetchApi();
-  }, [setFilterDrinks, id]);
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+    const favoriteTrue = arrayLocalStorage.some((drink) => drink.id === id);
+
+    if (favoriteTrue) {
+      setFavorite(true);
+    }
+  }, [setFilterDrinks, id, setFavorite]);
 
   const objectEntries = Object.entries(filterObject);
 
@@ -55,9 +74,76 @@ function InProgressDrinks(props) {
         [id]: listChecked,
       } };
     localStorage.setItem('inProgressRecipes', JSON.stringify(object));
-  }, [listChecked, id]);
+    const ingredientsFinish = objectEntries
+      .filter((ingredient) => ingredient[0].includes('strIngredient'))
+      .filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
+    if (ingredientsFinish.length === listChecked.length) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [listChecked, id, objectEntries]);
 
   const isChecked = (ingredient) => listChecked.some((item) => item === ingredient);
+
+  const clipboardClick = () => {
+    copy(`http://localhost:3000/drinks/${id}`);
+    setClipboard('Link copied!');
+  };
+
+  const FavoriteButton = () => {
+    if (favorite) {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+      const arrayFiltered = arrayLocalStorage
+        .filter((drink) => drink.id !== id);
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFiltered));
+    } else {
+      const arrayLocalStorage = JSON
+        .parse(localStorage.getItem('favoriteRecipes')) || [];
+
+      arrayLocalStorage.push(
+        {
+          id,
+          type: 'drink',
+          nationality: filterObject.strArea || '',
+          category: filterObject.strCategory || '',
+          alcoholicOrNot: filterObject.strAlcoholic || '',
+          name: filterObject.strDrink,
+          image: filterObject.strDrinkThumb,
+        },
+      );
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayLocalStorage));
+    }
+
+    setFavorite(!favorite);
+  };
+
+  const finishButton = () => {
+    const dataHoraClique = new Date();
+    const arrayLocalStorage = JSON
+      .parse(localStorage.getItem('doneRecipes')) || [];
+
+    arrayLocalStorage.push(
+      {
+        id,
+        type: 'drink',
+        nationality: filterObject.strArea || '',
+        category: filterObject.strCategory || '',
+        alcoholicOrNot: filterObject.strAlcoholic || '',
+        name: filterObject.strDrink,
+        image: filterObject.strDrinkThumb,
+        doneDate: dataHoraClique,
+        tags: filterObject.strTags || [],
+      },
+    );
+
+    localStorage.setItem('doneRecipes', JSON.stringify(arrayLocalStorage));
+    history.push('/done-recipes');
+  };
 
   return (
     <div>
@@ -72,15 +158,25 @@ function InProgressDrinks(props) {
           <button
             type="button"
             data-testid="share-btn"
+            onClick={ clipboardClick }
           >
-            compartilhar
+            <img
+              src={ shareIcon }
+              alt="shareIcon"
+            />
           </button>
           <button
             type="button"
             data-testid="favorite-btn"
+            onClick={ FavoriteButton }
+            src={ favorite ? blackHeartIcon : whiteHeartIcon }
           >
-            favoritar
+            <img
+              src={ favorite ? blackHeartIcon : whiteHeartIcon }
+              alt={ favorite ? 'blackHeartIcon' : 'whiteHeartIcon' }
+            />
           </button>
+          <p>{ clipboard }</p>
           <p data-testid="recipe-category">{element.strCategory}</p>
           <h3>Instrução</h3>
           <p data-testid="instructions">
@@ -110,6 +206,8 @@ function InProgressDrinks(props) {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ disable }
+        onClick={ finishButton }
       >
         Finalizar
 
