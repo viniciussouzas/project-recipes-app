@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
+import copy from 'clipboard-copy';
 import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Recommendations from './Recommendations';
+import shareIcon from '../images/shareIcon.svg';
 import context from '../contexts/MyContext';
 import './Footer.css';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -17,6 +19,12 @@ function DrinkDetail({ pathname }) {
   const [verifyIsFavorite, setVerifyIsFavorite] = useState(false);
   const [favorites, setFavorites] = useState([]); /* Array onde irei guardar meus favoritos */
   const { dataMeals } = useContext(context);
+  const [clipboard, setClipboard] = useState('');
+
+  const clipboardClick = () => {
+    copy(`http://localhost:3000/drinks/${id}`);
+    setClipboard('Link copied!');
+  };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -98,16 +106,20 @@ function DrinkDetail({ pathname }) {
             <p data-testid="recipe-category">
               {`${strCategory} ${strAlcoholic}`}
             </p>
-            <p data-testid="instructions">
-              {strInstructions}
-            </p>
             <button
               type="button"
               data-testid="share-btn"
+              onClick={ clipboardClick }
             >
-              Compartilhar
-
+              <img
+                src={ shareIcon }
+                alt="shareIcon"
+              />
             </button>
+            <p>{ clipboard }</p>
+            <p data-testid="instructions">
+              {strInstructions}
+            </p>
             <button
               onClick={ handleClick }
               type="button"
