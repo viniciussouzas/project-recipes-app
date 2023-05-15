@@ -121,13 +121,6 @@ function DrinkDetail({ pathname }) {
               {strInstructions}
             </p>
             <button
-              type="button"
-              data-testid="share-btn"
-            >
-              Compartilhar
-
-            </button>
-            <button
               onClick={ handleClick }
               type="button"
               data-testid="favorite-btn"
