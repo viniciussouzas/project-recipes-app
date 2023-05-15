@@ -29,24 +29,29 @@ function CategoryButtons({ data }) {
   };
 
   return (
-    <div>
-      {data.slice(0, MAX_SIZE).map((categoryName) => (
-        <div key={ categoryName }>
-          <button
-            data-testid={ `${categoryName}-category-filter` }
-            value={ categoryName }
-            onClick={ handleButton }
-          >
-            {categoryName}
-          </button>
-        </div>
-      ))}
-      <button
-        data-testid="All-category-filter"
-        onClick={ clearFilterData }
-      >
-        All
-      </button>
+    <div className="center buttons-header">
+      <div className="flex-buttons">
+        {data.slice(0, MAX_SIZE).map((categoryName) => (
+          <div id="margin" key={ categoryName }>
+            <button
+              className="button is-small is-rounded"
+              data-testid={ `${categoryName}-category-filter` }
+              value={ categoryName }
+              onClick={ handleButton }
+            >
+              {categoryName}
+            </button>
+          </div>
+        ))}
+        <button
+          id="margin"
+          className="button is-small is-link is-rounded"
+          data-testid="All-category-filter"
+          onClick={ clearFilterData }
+        >
+          All
+        </button>
+      </div>
     </div>
   );
 }

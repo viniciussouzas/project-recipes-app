@@ -18,6 +18,12 @@
   }
 }
 
+a, a:visited {
+  text-decoration: none !important; /* no underline */
+  color: rgb(106, 0, 113) !important;
+  font-weight: bold;
+}
+
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(236, 199, 255) !important;
   opacity: 1; /* Firefox */
@@ -39,6 +45,7 @@
   border-radius: 50px !important;
   background-color: #1c0037 !important;
   text-align: center; 
+  width: 80%;
 }
 
 .form-text-mine {
@@ -58,3 +65,138 @@
   border: none !important;
 }
 
+.buttons-header{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+  fill: white;
+  flex-wrap: wrap;
+}
+
+.nav-bar {
+  background-color: #600fb1;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white !important;
+  width: 100%;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.title {
+  padding-top: 15px;
+}
+
+.white {
+  color: white;
+}
+
+.padding-bot {
+  margin-bottom: 15px;
+}
+
+.pink-button {
+  background-color: #00ff11 !important;
+  filter: invert();
+}
+
+.nav-bar-search {
+  padding-top: 15px;
+  background-color: #510a98;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  accent-color: #1c0037;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+:checked + label {
+  font-weight: bold;
+}
+
+button, .zoom {
+  transition: transform .2s; /* Animation */
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.center {
+  margin: auto;
+  width: 80% !important;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.flex-buttons {
+  display: flex;
+  margin: 5px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#margin {
+  margin: 2px !important;
+}
+
+.icon {
+  margin: 5px;
+}
+
+.cards-container{
+  padding-bottom : 70px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.card-recipe {
+  width: 30%;
+  transition: transform .1s; /* Animation */
+  background-color: #1c0037;
+  text-decoration: none !important;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px !important;
+  padding: 5px;
+}
+
+.card-recipe > a, .card-recipe > a:visited {
+  text-decoration: none !important; /* no underline */
+  color: rgb(255, 255, 255) !important;
+  font-weight: bold;
+}
+
+.card-recipe > p {
+  margin: 0px !important;
+}
+
+.zoom:hover {
+  transform:scale(1.05);
+  /* To bring top */
+  position: relative;
+  z-index: 0;
+ }
+
+.img-card-recipe {
+  border-radius: 10% !important;
+}

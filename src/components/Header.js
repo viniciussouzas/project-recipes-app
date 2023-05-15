@@ -5,6 +5,7 @@ import profile from '../images/profileIcon.svg';
 import search from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 import context from '../contexts/MyContext';
+import icon from '../images/Recipes Icon.png';
 
 function Header({ title, searchIcon }) {
   const { setInputApi } = useContext(context);
@@ -24,21 +25,25 @@ function Header({ title, searchIcon }) {
   };
 
   return (
-    <div className=".header-div">
+    <nav className="nav-bar">
       <h1
+        id="margin"
+        className="title is-3 white"
         data-testid="page-title"
       >
+        <img className="icon" src={ icon } alt="" />
         { title }
       </h1>
 
       <div className="buttons-header">
         <button
-          className="button is-rounded"
+          className="button is-rounded pink-button"
           type="button"
           onClick={ historyPush }
           data-testid="profile-button"
         >
           <img
+            className="inverted"
             src={ profile }
             alt="perfil"
             data-testid="profile-top-btn"
@@ -47,12 +52,13 @@ function Header({ title, searchIcon }) {
         {
           searchIcon && (
             <button
-              className="button is-rounded"
+              className="button is-rounded pink-button"
               type="button"
               onClick={ searchInput }
               data-testid="search-button"
             >
               <img
+                className="inverted"
                 src={ search }
                 alt="search"
                 data-testid="search-top-btn"
@@ -65,6 +71,7 @@ function Header({ title, searchIcon }) {
       {
         inputSearch && (
           <input
+            className="input form-input"
             type="text"
             data-testid="search-input"
             onChange={ handleInput }
@@ -74,7 +81,7 @@ function Header({ title, searchIcon }) {
       {
         inputSearch && (<SearchBar />)
       }
-    </div>
+    </nav>
   );
 }
 

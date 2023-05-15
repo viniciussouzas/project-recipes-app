@@ -42,6 +42,7 @@ function CardFavoriteRecipes() {
   };
 
   const handleClick = (param) => {
+    setArrayFavorite(filteredArray);
     if (param === 'Meals') {
       const filtered = arrayFavorite.filter((element) => element.type !== 'drink');
       setArrayFavorite(filtered);

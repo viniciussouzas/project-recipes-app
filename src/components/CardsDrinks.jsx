@@ -5,20 +5,25 @@ import { Link } from 'react-router-dom';
 function CardsDrinks({ data }) {
   const MAX_SIZE = 12;
   return (
-    <div>
+    <div className="cards-container">
       {data.slice(0, MAX_SIZE).map((recipe, index) => (
-        <Link to={ `/drinks/${recipe.idDrink}` } key={ recipe.idDrink }>
-          <div key={ recipe.idDrink } data-testid={ `${index}-recipe-card` }>
+        <div
+          className="card-recipe"
+          key={ recipe.idDrink }
+          data-testid={ `${index}-recipe-card` }
+        >
+          <Link to={ `/drinks/${recipe.idDrink}` } key={ recipe.idDrink }>
             <img
+              className="zoom img-card-recipe"
               data-testid={ `${index}-card-img` }
               src={ recipe.strDrinkThumb }
               alt={ recipe.strDrink }
             />
-            <p data-testid={ `${index}-card-name` }>
+            <p id="margin" data-testid={ `${index}-card-name` }>
               { recipe.strDrink }
             </p>
-          </div>
-        </Link>
+          </Link>
+        </div>
       ))}
     </div>
   );

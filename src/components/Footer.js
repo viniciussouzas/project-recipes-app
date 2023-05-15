@@ -18,32 +18,36 @@ function Footer() {
     history.push('/meals');
   };
   return (
-    <footer
-      data-testid="footer"
-      className="footer"
-    >
-      <button
-        type="button"
-        onClick={ drinkPush }
+    <div className="footer-bar">
+      <footer
+        data-testid="footer"
+        className="footer"
       >
-        <img
-          src={ drinkIcon }
-          alt="drinkIcon"
-          data-testid="drinks-bottom-btn"
-        />
-      </button>
-      <button
-        type="button"
-        onClick={ mealPush }
-      >
-        <img
-          src={ mealIcon }
-          alt="mealIcon"
-          data-testid="meals-bottom-btn"
-        />
-      </button>
+        <button
+          className="button is-rounded pink-button"
+          type="button"
+          onClick={ drinkPush }
+        >
+          <img
+            src={ drinkIcon }
+            alt="drinkIcon"
+            data-testid="drinks-bottom-btn"
+          />
+        </button>
+        <button
+          className="button is-rounded pink-button"
+          type="button"
+          onClick={ mealPush }
+        >
+          <img
+            src={ mealIcon }
+            alt="mealIcon"
+            data-testid="meals-bottom-btn"
+          />
+        </button>
 
-    </footer>
+      </footer>
+    </div>
   );
 }
 

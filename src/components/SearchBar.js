@@ -90,39 +90,50 @@ function SearchBar() {
   };
 
   return (
-    <nav>
+    <nav className="nav-bar-search">
       <div
+        className="control"
         onChange={ handleChange }
       >
-        <label>
-          <input
-            name="filter"
-            type="radio"
-            data-testid="ingredient-search-radio"
-            value="ingredient"
-          />
-          Ingredient
-        </label>
-        <label>
-          <input
-            name="filter"
-            type="radio"
-            data-testid="name-search-radio"
-            value="name"
-          />
-          Name
-        </label>
-        <label>
-          <input
-            name="filter"
-            type="radio"
-            data-testid="first-letter-search-radio"
-            value="first-letter"
-          />
-          First letter
-        </label>
+        <div>
+          <label className="radio label-for-check">
+            <input
+              className="check-with-label"
+              name="filter"
+              type="radio"
+              data-testid="ingredient-search-radio"
+              value="ingredient"
+            />
+            Ingredient
+          </label>
+        </div>
+        <div>
+          <label className="radio label-for-check">
+            <input
+              className="check-with-label"
+              name="filter"
+              type="radio"
+              data-testid="name-search-radio"
+              value="name"
+            />
+            Name
+          </label>
+        </div>
+        <div>
+          <label className="radio label-for-check">
+            <input
+              className="check-with-label"
+              name="filter"
+              type="radio"
+              data-testid="first-letter-search-radio"
+              value="first-letter"
+            />
+            First letter
+          </label>
+        </div>
       </div>
       <button
+        className="is-link button is-rounded padding-bot"
         data-testid="exec-search-btn"
         onClick={ handleClick }
       >
